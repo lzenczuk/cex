@@ -1,4 +1,4 @@
-package com.github.lzenczuk.cex.rest.model;
+package com.github.lzenczuk.cex.model;
 
 import java.math.BigDecimal;
 import java.util.Date;

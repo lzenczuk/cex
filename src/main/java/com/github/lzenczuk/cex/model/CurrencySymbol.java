@@ -1,4 +1,4 @@
-package com.github.lzenczuk.cex.rest.model;
+package com.github.lzenczuk.cex.model;
 
 /**
  * Created by lzenczuk on 24/03/17.
