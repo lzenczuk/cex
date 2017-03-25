@@ -9,7 +9,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.annotation.PostConstruct;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by lzenczuk on 24/03/17.
@@ -39,7 +41,7 @@ public class EcbServiceImpl implements EcbService{
     @Override
     public void updateLatestExchangeRates() {
         logger.info("-------------> Update latest exchange rates");
-        String latestExchangeRatesString = exchangeRatesWebClient.fetchLatestExchangeRates();
+        Optional<InputStream> latestExchangeRatesString = exchangeRatesWebClient.fetchLatestExchangeRates();
         List<ConversionRate> conversionRates = ecbExchangeRatesParser.parse(latestExchangeRatesString);
         exchangeRatesService.updateRates(conversionRates);
     }

@@ -5,6 +5,7 @@ import com.github.lzenczuk.cex.service.ecb.client.EcbExchangeRatesParser;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class SaxEcbExchangeRatesParserImpl implements EcbExchangeRatesParser {
     private Log logger = LogFactory.getLog(SaxEcbExchangeRatesParserImpl.class);
 
     @Override
-    public List<ConversionRate> parse(String data) {
+    public List<ConversionRate> parse(InputStream dataInputStream) {
         logger.info("Parse exchange rates");
         return Collections.emptyList();
     }
