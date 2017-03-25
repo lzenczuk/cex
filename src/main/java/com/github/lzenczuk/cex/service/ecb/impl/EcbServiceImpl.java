@@ -34,15 +34,27 @@ public class EcbServiceImpl implements EcbService{
      * TODO - remove this, this code only in purpose of checking spring configuration
      */
     public void init(){
+        updateHistoricalExchangeRates();
         updateLatestExchangeRates();
     }
 
     @Override
     public void updateLatestExchangeRates() {
-        logger.info("-------------> Update latest exchange rates");
         try(EcbExchangeRatesResponse response = exchangeRatesWebClient.fetchLatestExchangeRates()){
-            List<ConversionRate> conversionRates = ecbExchangeRatesParser.parse(response.getContent(),conversionRate -> System.out.println(conversionRate));
-            exchangeRatesService.updateRates(conversionRates);
+            ecbExchangeRatesParser.parse(
+                    response.getContent(),
+                    exchangeRatesService::updateRate
+            );
+        }
+    }
+
+    @Override
+    public void updateHistoricalExchangeRates() {
+        try(EcbExchangeRatesResponse response = exchangeRatesWebClient.fetchLast90DaysExchangeRates()){
+            ecbExchangeRatesParser.parse(
+                    response.getContent(),
+                    exchangeRatesService::updateRate
+            );
         }
     }
 }

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Optional;
 
 /**
@@ -29,7 +31,14 @@ public class ExchangeRateController {
 
         logger.info("Symbol: "+symbol);
 
-        return exchangeRatesService.getLatestConversionRate(symbol);
+        LocalDate date = LocalDate.now();
+        if(date.getDayOfWeek().equals(DayOfWeek.SUNDAY)){
+            date = date.minusDays(2);
+        }else if(date.getDayOfWeek().equals(DayOfWeek.SATURDAY)){
+            date = date.minusDays(1);
+        }
+
+        return exchangeRatesService.getConversionRate(symbol, date);
     }
 
 }

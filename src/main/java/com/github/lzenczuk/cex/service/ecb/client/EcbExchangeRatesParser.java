@@ -11,5 +11,5 @@ import java.util.function.Consumer;
  * Created by lzenczuk on 24/03/17.
  */
 public interface EcbExchangeRatesParser {
-    List<ConversionRate> parse(Optional<InputStream> optionalInputStream, Consumer<ConversionRate> conversionRateConsumer);
+    void parse(Optional<InputStream> optionalInputStream, Consumer<ConversionRate> conversionRateConsumer);
 }

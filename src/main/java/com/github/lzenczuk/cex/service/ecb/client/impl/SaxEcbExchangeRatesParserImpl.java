@@ -13,8 +13,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -26,9 +24,9 @@ public class SaxEcbExchangeRatesParserImpl implements EcbExchangeRatesParser {
     private Log logger = LogFactory.getLog(SaxEcbExchangeRatesParserImpl.class);
 
     @Override
-    public List<ConversionRate> parse(Optional<InputStream> optionalInputStream, Consumer<ConversionRate> conversionRateConsumer) {
+    public void parse(Optional<InputStream> optionalInputStream, Consumer<ConversionRate> conversionRateConsumer) {
 
-        optionalInputStream.map(inputStream -> {
+        optionalInputStream.ifPresent(inputStream -> {
             try {
                 SAXParserFactory factory = SAXParserFactory.newInstance();
                 SAXParser saxParser = factory.newSAXParser();
@@ -43,11 +41,7 @@ public class SaxEcbExchangeRatesParserImpl implements EcbExchangeRatesParser {
             } catch (IOException e) {
                 logger.error("IO error during parsing.", e);
             }
-
-            return Collections.emptyList();
-        }).orElse(Collections.emptyList());
-
-        return Collections.emptyList();
+        });
     }
 
     private class EcbXmlHandler extends DefaultHandler{

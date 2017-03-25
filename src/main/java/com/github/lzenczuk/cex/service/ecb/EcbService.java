@@ -6,4 +6,5 @@ package com.github.lzenczuk.cex.service.ecb;
 public interface EcbService {
 
     void updateLatestExchangeRates();
+    void updateHistoricalExchangeRates();
 }
