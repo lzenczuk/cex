@@ -2,6 +2,7 @@ package com.github.lzenczuk.cex.service.ecb.client.impl;
 
 import com.github.lzenczuk.cex.model.ConversionRate;
 import com.github.lzenczuk.cex.service.ecb.client.EcbExchangeRatesParser;
+import com.github.lzenczuk.cex.service.ecb.client.EcbExchangeRatesResponse;
 import com.github.lzenczuk.cex.service.ecb.client.EcbExchangeRatesWebClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,37 +24,31 @@ public class AhcEcbExchangeRatesWebClientImpl implements EcbExchangeRatesWebClie
 
     private Log logger = LogFactory.getLog(AhcEcbExchangeRatesWebClientImpl.class);
 
-    private final EcbExchangeRatesParser ecbExchangeRatesParser;
-
-    public AhcEcbExchangeRatesWebClientImpl(EcbExchangeRatesParser ecbExchangeRatesParser) {
-        this.ecbExchangeRatesParser = ecbExchangeRatesParser;
-    }
-
     @Override
-    public List<ConversionRate> fetchLatestExchangeRates() {
+    public EcbExchangeRatesResponse fetchLatestExchangeRates() {
         logger.info("Fetch latest exchange rates");
         return getXmlPricesInputStream("http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml");
     }
 
     @Override
-    public List<ConversionRate> fetchLast90DaysExchangeRates() {
+    public EcbExchangeRatesResponse fetchLast90DaysExchangeRates() {
         return getXmlPricesInputStream("http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml");
     }
 
-    private List<ConversionRate> getXmlPricesInputStream(String uri) {
+    private EcbExchangeRatesResponse getXmlPricesInputStream(String uri) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(uri);
 
-        try(CloseableHttpResponse response = httpClient.execute(httpGet)) {
-            if(HttpStatus.SC_OK==response.getStatusLine().getStatusCode()){
-                return ecbExchangeRatesParser.parse(response.getEntity().getContent());
+        try {
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            if (HttpStatus.SC_OK == response.getStatusLine().getStatusCode()) {
+                return new AhcEcbExchangeRatesResponse(Optional.of(response));
             }
-        } catch (ClientProtocolException e) {
-            System.out.println("Client exception: "+e.getMessage());
         } catch (IOException e) {
-            System.out.println("IO exception: "+e.getMessage());
+            logger.error("Error executing http request.");
         }
 
-        return Optional.empty();
+
+        return new AhcEcbExchangeRatesResponse(Optional.empty());
     }
 }

@@ -8,6 +8,6 @@ import java.util.List;
  * Created by lzenczuk on 24/03/17.
  */
 public interface EcbExchangeRatesWebClient {
-    List<ConversionRate> fetchLatestExchangeRates();
-    List<ConversionRate> fetchLast90DaysExchangeRates();
+    EcbExchangeRatesResponse fetchLatestExchangeRates();
+    EcbExchangeRatesResponse fetchLast90DaysExchangeRates();
 }

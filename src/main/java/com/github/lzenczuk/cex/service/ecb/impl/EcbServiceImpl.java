@@ -3,6 +3,7 @@ package com.github.lzenczuk.cex.service.ecb.impl;
 import com.github.lzenczuk.cex.model.ConversionRate;
 import com.github.lzenczuk.cex.service.ecb.EcbService;
 import com.github.lzenczuk.cex.service.ecb.client.EcbExchangeRatesParser;
+import com.github.lzenczuk.cex.service.ecb.client.EcbExchangeRatesResponse;
 import com.github.lzenczuk.cex.service.ecb.client.EcbExchangeRatesWebClient;
 import com.github.lzenczuk.cex.service.exchangerate.ExchangeRatesService;
 import org.apache.commons.logging.Log;
@@ -41,8 +42,9 @@ public class EcbServiceImpl implements EcbService{
     @Override
     public void updateLatestExchangeRates() {
         logger.info("-------------> Update latest exchange rates");
-        Optional<InputStream> latestExchangeRatesString = exchangeRatesWebClient.fetchLatestExchangeRates();
-        List<ConversionRate> conversionRates = ecbExchangeRatesParser.parse(latestExchangeRatesString);
-        exchangeRatesService.updateRates(conversionRates);
+        try(EcbExchangeRatesResponse response = exchangeRatesWebClient.fetchLatestExchangeRates()){
+            List<ConversionRate> conversionRates = ecbExchangeRatesParser.parse(response.getContent());
+            exchangeRatesService.updateRates(conversionRates);
+        }
     }
 }

@@ -4,10 +4,11 @@ import com.github.lzenczuk.cex.model.ConversionRate;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by lzenczuk on 24/03/17.
  */
 public interface EcbExchangeRatesParser {
-    List<ConversionRate> parse(InputStream dataInputStream);
+    List<ConversionRate> parse(Optional<InputStream> optionalInputStream);
 }
