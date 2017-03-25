@@ -1,7 +1,7 @@
 package com.github.lzenczuk.cex.model;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Created by lzenczuk on 24/03/17.
@@ -9,12 +9,12 @@ import java.util.Date;
 public class ConversionRate {
     private CurrencySymbol currency;
     private BigDecimal rate;
-    private Date time;
+    private LocalDate date;
 
-    public ConversionRate(CurrencySymbol currency, BigDecimal rate, Date time) {
-        this.currency = currency;
-        this.rate = rate;
-        this.time = time;
+    public ConversionRate(String symbol, String rate, String time) {
+        this.currency = CurrencySymbol.valueOf(symbol);
+        this.rate = new BigDecimal(rate);
+        this.date = LocalDate.parse(time);
     }
 
     public CurrencySymbol getCurrency() {
@@ -33,12 +33,12 @@ public class ConversionRate {
         this.rate = rate;
     }
 
-    public Date getTime() {
-        return time;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class ConversionRate {
         return "ConversionRate{" +
                 "currency=" + currency +
                 ", rate=" + rate +
-                ", time=" + time +
+                ", date=" + date +
                 '}';
     }
 }
