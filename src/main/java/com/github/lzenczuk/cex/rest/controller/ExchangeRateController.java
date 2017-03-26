@@ -33,12 +33,12 @@ public class ExchangeRateController {
 
     private Log logger = LogFactory.getLog(ExchangeRateController.class);
 
-    @RequestMapping("/conversion")
+    @RequestMapping("/currencies")
     public KnownCurrenciesSymbolsResponse getLatestConversionRate() {
         return new KnownCurrenciesSymbolsResponse(CurrencySymbol.getAllSymbolsAsStrings());
     }
 
-    @RequestMapping("/conversion/{symbol}")
+    @RequestMapping("/currencies/{symbol}")
     public ExchangeRateResponse getLatestConversionRate(@PathVariable("symbol") String symbolString) throws CexException {
 
         CurrencySymbol symbol;
@@ -58,7 +58,7 @@ public class ExchangeRateController {
         }
     }
 
-    @RequestMapping("/conversion/{symbol}/{date}")
+    @RequestMapping("/currencies/{symbol}/{date}")
     public ExchangeRateResponse getConversionRate(@PathVariable("symbol") String symbolString, @PathVariable("date") String dateString) throws CexException {
 
         CurrencySymbol symbol;
