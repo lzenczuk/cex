@@ -1,5 +1,9 @@
 package com.github.lzenczuk.cex.model;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Created by lzenczuk on 24/03/17.
  */
@@ -34,5 +38,13 @@ public enum CurrencySymbol {
     PHP,
     SGD,
     THB,
-    ZAR
+    ZAR;
+
+    static public List<CurrencySymbol> getAllSymbols(){
+        return Arrays.asList(CurrencySymbol.values());
+    }
+
+    static public List<String> getAllSymbolsAsStrings(){
+        return getAllSymbols().stream().map(CurrencySymbol::toString).collect(Collectors.toList());
+    }
 }

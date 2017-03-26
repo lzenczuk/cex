@@ -7,7 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,7 +21,7 @@ public class InMemoryExchangeRatesServiceImpl implements ExchangeRatesService {
     private ConcurrentHashMap<CurrencySymbol, ConcurrentHashMap<LocalDate, ConversionRate>> conversionsMap = new ConcurrentHashMap<>();
 
     public InMemoryExchangeRatesServiceImpl() {
-        Arrays.asList(CurrencySymbol.values())
+        CurrencySymbol.getAllSymbols()
                 .stream()
                 .forEach(symbol -> conversionsMap.put(symbol, new ConcurrentHashMap<>()));
     }
@@ -32,6 +32,24 @@ public class InMemoryExchangeRatesServiceImpl implements ExchangeRatesService {
             ConcurrentHashMap<LocalDate, ConversionRate> symbolConversionMap = conversionsMap.get(symbol);
             if (symbolConversionMap.containsKey(date)) {
                 return Optional.of(symbolConversionMap.get(date));
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<ConversionRate> getLatestConversionRate(CurrencySymbol symbol) {
+        if (conversionsMap.containsKey(symbol)) {
+            ConcurrentHashMap<LocalDate, ConversionRate> symbolConversionMap = conversionsMap.get(symbol);
+
+            Optional<LocalDate> maxDate = symbolConversionMap.entrySet()
+                    .stream()
+                    .map(Map.Entry::getKey)
+                    .max((d1, d2) -> d1.compareTo(d2));
+
+            if(maxDate.isPresent()){
+                return Optional.of(symbolConversionMap.get(maxDate.get()));
             }
         }
 

@@ -12,5 +12,6 @@ import java.util.Optional;
  */
 public interface ExchangeRatesService {
     Optional<ConversionRate> getConversionRate(CurrencySymbol symbol, LocalDate date);
+    Optional<ConversionRate> getLatestConversionRate(CurrencySymbol symbol);
     void updateRate(ConversionRate conversionRate);
 }

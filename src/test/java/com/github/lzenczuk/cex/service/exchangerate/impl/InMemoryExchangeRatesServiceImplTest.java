@@ -50,4 +50,30 @@ public class InMemoryExchangeRatesServiceImplTest {
 
         assertFalse(optionalConversionRate.isPresent());
     }
+
+    @Test
+    public void shouldReturnEmptyOptionalForMissingDateWhenFetchingLatestExchangeRate(){
+        InMemoryExchangeRatesServiceImpl inMemoryExchangeRatesService = new InMemoryExchangeRatesServiceImpl();
+
+        Optional<ConversionRate> optionalConversionRate = inMemoryExchangeRatesService.getLatestConversionRate(CurrencySymbol.USD);
+
+        assertFalse(optionalConversionRate.isPresent());
+    }
+
+    @Test
+    public void shouldReturnLatestExchangeRate(){
+        InMemoryExchangeRatesServiceImpl inMemoryExchangeRatesService = new InMemoryExchangeRatesServiceImpl();
+        inMemoryExchangeRatesService.updateRate(new ConversionRate("USD", "1.08", "2017-03-04"));
+        inMemoryExchangeRatesService.updateRate(new ConversionRate("USD", "1.10", "2017-03-06"));
+        inMemoryExchangeRatesService.updateRate(new ConversionRate("USD", "1.09", "2017-03-05"));
+
+        Optional<ConversionRate> optionalConversionRate = inMemoryExchangeRatesService.getLatestConversionRate(CurrencySymbol.USD);
+
+        assertTrue(optionalConversionRate.isPresent());
+        ConversionRate conversionRate = optionalConversionRate.get();
+
+        assertEquals(CurrencySymbol.USD, conversionRate.getCurrency());
+        assertEquals(LocalDate.parse("2017-03-06"), conversionRate.getDate());
+        assertEquals(0, new BigDecimal("1.10").compareTo(conversionRate.getRate()));
+    }
 }
