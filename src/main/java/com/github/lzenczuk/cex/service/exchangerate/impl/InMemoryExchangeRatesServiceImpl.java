@@ -58,6 +58,7 @@ public class InMemoryExchangeRatesServiceImpl implements ExchangeRatesService {
 
     @Override
     public void updateRate(ConversionRate conversionRate) {
+        logger.debug("Updating conversion rate: "+conversionRate);
         if(conversionsMap.containsKey(conversionRate.getCurrency())){
             conversionsMap.get(conversionRate.getCurrency()).put(conversionRate.getDate(), conversionRate);
         }else{

@@ -35,11 +35,14 @@ public class ExchangeRateController {
 
     @RequestMapping("/currencies")
     public KnownCurrenciesSymbolsResponse getLatestConversionRate() {
+        logger.debug("Request for currencies.");
+
         return new KnownCurrenciesSymbolsResponse(CurrencySymbol.getAllSymbolsAsStrings());
     }
 
     @RequestMapping("/currencies/{symbol}")
     public ExchangeRateResponse getLatestConversionRate(@PathVariable("symbol") String symbolString) throws CexException {
+        logger.debug("Request for "+symbolString);
 
         CurrencySymbol symbol;
         try {
@@ -60,6 +63,7 @@ public class ExchangeRateController {
 
     @RequestMapping("/currencies/{symbol}/{date}")
     public ExchangeRateResponse getConversionRate(@PathVariable("symbol") String symbolString, @PathVariable("date") String dateString) throws CexException {
+        logger.debug("Request for "+symbolString+" at "+dateString);
 
         CurrencySymbol symbol;
         try {

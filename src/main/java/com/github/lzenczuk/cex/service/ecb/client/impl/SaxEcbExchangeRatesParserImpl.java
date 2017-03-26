@@ -26,13 +26,19 @@ public class SaxEcbExchangeRatesParserImpl implements EcbExchangeRatesParser {
     @Override
     public void parse(Optional<InputStream> optionalInputStream, Consumer<ConversionRate> conversionRateConsumer) {
 
+        if(!optionalInputStream.isPresent()){
+            logger.info("Receive empty input stream. Nothing to parse.");
+        }
+
         optionalInputStream.ifPresent(inputStream -> {
             try {
+                logger.info("Parsing currencies input stream.");
                 SAXParserFactory factory = SAXParserFactory.newInstance();
                 SAXParser saxParser = factory.newSAXParser();
                 EcbXmlHandler ecbXmlHandler = new EcbXmlHandler(conversionRateConsumer);
 
                 saxParser.parse(inputStream, ecbXmlHandler);
+                logger.info("Currencies input stream parsed.");
 
             } catch (ParserConfigurationException e) {
                 logger.error("Parser configuration error.", e);

@@ -27,6 +27,7 @@ public class EcbServiceImpl implements EcbService{
 
     @Override
     public void updateLatestExchangeRates() {
+        logger.info("Updating latest currencies rates");
         try(EcbExchangeRatesResponse response = exchangeRatesWebClient.fetchLatestExchangeRates()){
             ecbExchangeRatesParser.parse(
                     response.getContent(),
@@ -37,6 +38,7 @@ public class EcbServiceImpl implements EcbService{
 
     @Override
     public void updateHistoricalExchangeRates() {
+        logger.info("Updating historical currencies rates");
         try(EcbExchangeRatesResponse response = exchangeRatesWebClient.fetchLast90DaysExchangeRates()){
             ecbExchangeRatesParser.parse(
                     response.getContent(),

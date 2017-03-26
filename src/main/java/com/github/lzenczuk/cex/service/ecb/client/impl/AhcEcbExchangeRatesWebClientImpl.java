@@ -22,23 +22,28 @@ public class AhcEcbExchangeRatesWebClientImpl implements EcbExchangeRatesWebClie
 
     @Override
     public EcbExchangeRatesResponse fetchLatestExchangeRates() {
-        logger.info("Fetch latest exchange rates");
+        logger.info("Fetch latest exchange rates from Ecb page");
         return getXmlPricesInputStream("http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml");
     }
 
     @Override
     public EcbExchangeRatesResponse fetchLast90DaysExchangeRates() {
+        logger.info("Fetch historical exchange rates from Ecb page");
         return getXmlPricesInputStream("http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml");
     }
 
     private EcbExchangeRatesResponse getXmlPricesInputStream(String uri) {
+        logger.debug("Sending request to "+uri);
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(uri);
 
         try {
             CloseableHttpResponse response = httpClient.execute(httpGet);
             if (HttpStatus.SC_OK == response.getStatusLine().getStatusCode()) {
+                logger.debug("Receive successful response.");
                 return new AhcEcbExchangeRatesResponse(Optional.of(response));
+            }else {
+                logger.debug("Receive failure response: "+response.getStatusLine().toString());
             }
         } catch (IOException e) {
             logger.error("Error executing http request.");
