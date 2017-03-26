@@ -1,6 +1,8 @@
 package com.github.lzenczuk.cex.config;
 
+import com.github.lzenczuk.cex.service.ecb.scheduler.EcbScheduler;
 import com.github.lzenczuk.cex.service.ecb.EcbService;
+import com.github.lzenczuk.cex.service.ecb.scheduler.impl.SpringEcbSchedulerImpl;
 import com.github.lzenczuk.cex.service.ecb.client.EcbExchangeRatesParser;
 import com.github.lzenczuk.cex.service.ecb.client.EcbExchangeRatesWebClient;
 import com.github.lzenczuk.cex.service.ecb.client.impl.AhcEcbExchangeRatesWebClientImpl;
@@ -12,19 +14,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * Created by lzenczuk on 24/03/17.
  */
 
 @Configuration
+@EnableScheduling
 public class AppConfig {
-
-    private Log logger = LogFactory.getLog(AppConfig.class);
 
     @Bean
     public ExchangeRatesService exchangeRatesService(){
-        logger.info("--------> exchange rates service");
         return new InMemoryExchangeRatesServiceImpl();
     }
 
@@ -40,9 +41,11 @@ public class AppConfig {
 
     @Bean
     public EcbService ecbService(EcbExchangeRatesWebClient client, EcbExchangeRatesParser parser, ExchangeRatesService exchangeRatesService){
-        logger.info("--------> ecb service");
         return new EcbServiceImpl(parser, client, exchangeRatesService);
     }
 
-
+    @Bean
+    public EcbScheduler ecbScheduler(EcbService ecbService){
+        return new SpringEcbSchedulerImpl(ecbService);
+    }
 }
