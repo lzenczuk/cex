@@ -4,7 +4,6 @@ import com.github.lzenczuk.cex.model.ConversionRate;
 import com.github.lzenczuk.cex.model.CurrencySymbol;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 /**

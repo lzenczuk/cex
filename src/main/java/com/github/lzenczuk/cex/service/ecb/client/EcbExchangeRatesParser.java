@@ -3,7 +3,6 @@ package com.github.lzenczuk.cex.service.ecb.client;
 import com.github.lzenczuk.cex.model.ConversionRate;
 
 import java.io.InputStream;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 

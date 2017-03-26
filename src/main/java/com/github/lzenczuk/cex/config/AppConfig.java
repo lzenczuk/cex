@@ -1,17 +1,15 @@
 package com.github.lzenczuk.cex.config;
 
-import com.github.lzenczuk.cex.service.ecb.scheduler.EcbScheduler;
 import com.github.lzenczuk.cex.service.ecb.EcbService;
-import com.github.lzenczuk.cex.service.ecb.scheduler.impl.SpringEcbSchedulerImpl;
 import com.github.lzenczuk.cex.service.ecb.client.EcbExchangeRatesParser;
 import com.github.lzenczuk.cex.service.ecb.client.EcbExchangeRatesWebClient;
 import com.github.lzenczuk.cex.service.ecb.client.impl.AhcEcbExchangeRatesWebClientImpl;
 import com.github.lzenczuk.cex.service.ecb.client.impl.SaxEcbExchangeRatesParserImpl;
 import com.github.lzenczuk.cex.service.ecb.impl.EcbServiceImpl;
+import com.github.lzenczuk.cex.service.ecb.scheduler.EcbScheduler;
+import com.github.lzenczuk.cex.service.ecb.scheduler.impl.SpringEcbSchedulerImpl;
 import com.github.lzenczuk.cex.service.exchangerate.ExchangeRatesService;
 import com.github.lzenczuk.cex.service.exchangerate.impl.InMemoryExchangeRatesServiceImpl;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;

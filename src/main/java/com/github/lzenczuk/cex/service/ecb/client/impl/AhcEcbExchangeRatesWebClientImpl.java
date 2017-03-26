@@ -1,20 +1,16 @@
 package com.github.lzenczuk.cex.service.ecb.client.impl;
 
-import com.github.lzenczuk.cex.model.ConversionRate;
-import com.github.lzenczuk.cex.service.ecb.client.EcbExchangeRatesParser;
 import com.github.lzenczuk.cex.service.ecb.client.EcbExchangeRatesResponse;
 import com.github.lzenczuk.cex.service.ecb.client.EcbExchangeRatesWebClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 /**
